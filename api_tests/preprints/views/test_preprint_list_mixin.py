@@ -1,17 +1,14 @@
 from nose.tools import *  # flake8: noqa
 
 from api.base.settings.defaults import API_BASE
-
 from website.util import permissions
-
+from api_tests import utils as test_utils
 from osf_tests.factories import (
     ProjectFactory,
     PreprintFactory,
     AuthUserFactory,
     SubjectFactory,
 )
-
-from api_tests import utils as test_utils
 
 class PreprintIsPublishedListMixin(object):
 
