@@ -8,7 +8,6 @@ from osf_api_tests.factories import (
     PreprintProviderFactory
 )
 from tests.json_api_test_app import JSONAPITestApp
-from api_tests import utils as test_utils
 
 pytestmark = pytest.mark.django_db
 
@@ -64,7 +63,8 @@ class TestUserUrl(PreprintIsValidListMixin):
         return '/{}users/{}/preprints/?version=2.2&'.format(API_BASE, admin._id)
 
     # test override: user nodes/preprints routes do not show private nodes to anyone but the self
-    def preprint_private_visible_write(self):
+    @pytest.mark.individual_test
+    def test_preprint_private_visible_write(self):
         res = self.app.get(self.url, auth=self.write_contrib.auth)
         assert len(res.json['data']) == 1
         self.project.is_public = False
@@ -90,7 +90,8 @@ class TestNodeUrl(PreprintIsValidListMixin):
         return '/{}nodes/{}/preprints/?version=2.2&'.format(API_BASE, project._id)
 
     # test override: custom exception checks because of node permission failures
-    def preprint_private_invisible_no_auth(self):
+    @pytest.mark.individual_test
+    def test_preprint_private_invisible_no_auth(self):
         res = self.app.get(self.url)
         assert len(res.json['data']) == 1
         self.project.is_public = False
@@ -101,7 +102,8 @@ class TestNodeUrl(PreprintIsValidListMixin):
         self.project.save()
 
     # test override: custom exception checks because of node permission failures
-    def preprint_private_invisible_non_contributor(self):
+    @pytest.mark.individual_test
+    def test_preprint_private_invisible_non_contributor(self):
         res = self.app.get(self.url, auth=self.non_contrib.auth)
         assert len(res.json['data']) == 1
         self.project.is_public = False
@@ -112,7 +114,8 @@ class TestNodeUrl(PreprintIsValidListMixin):
         self.project.save()
 
     # test override: custom exception checks because of node permission failures
-    def preprint_node_deleted_invisible(self):
+    @pytest.mark.individual_test
+    def test_preprint_node_deleted_invisible(self):
         self.project.is_deleted = True
         self.project.save()
         # no auth
