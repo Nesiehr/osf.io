@@ -73,7 +73,7 @@ class TestUserPreprints(ApiTestCase):
         assert_not_in(self.public_project._id, ids)
         assert_not_in(self.private_project._id, ids)
 
-class TestUserPreprintsListFiltering(PreprintsListFilteringMixin, ApiTestCase):
+class TestUserPreprintsListFiltering(PreprintsListFilteringMixin):
 
     def setUp(self):
         self.user = AuthUserFactory()
@@ -86,11 +86,43 @@ class TestUserPreprintsListFiltering(PreprintsListFilteringMixin, ApiTestCase):
         self.url = '/{}users/{}/preprints/?version=2.2&'.format(API_BASE, self.user._id)
         super(TestUserPreprintsListFiltering, self).setUp()
 
+    @pytest.fixture()
+    def user(self):
+        return AuthUserFactory()
+
+    @pytest.fixture()
+    def provider_one(self):
+        return PreprintProviderFactory(name='Sockarxiv')
+
+    @pytest.fixture()
+    def provider_two(self):
+        return PreprintProviderFactory(name='Piratearxiv')
+
+    @pytest.fixture()
+    def provider_three(self, provider_one):
+        return provider_one
+
+    @pytest.fixture()
+    def project_one(self, user):
+        return ProjectFactory(creator=user)
+
+    @pytest.fixture()
+    def project_two(self, user):
+        return ProjectFactory(creator=user)
+
+    @pytest.fixture()
+    def project_three(self, user):
+        return ProjectFactory(creator=user)
+
+    @pytest.fixture()
+    def url(self, user):
+        return '/{}users/{}/preprints/?version=2.2&'.format(API_BASE, user._id)
+
     def test_provider_filter_equals_returns_one(self):
         expected = [self.preprint_two._id]
         res = self.app.get('{}{}'.format(self.provider_url, self.provider_two._id), auth=self.user.auth)
         actual = [preprint['id'] for preprint in res.json['data']]
-        assert_equal(expected, actual)
+        assert expected == actual
 
 
 class TestUserPreprintIsPublishedList(PreprintIsPublishedListMixin, ApiTestCase):
