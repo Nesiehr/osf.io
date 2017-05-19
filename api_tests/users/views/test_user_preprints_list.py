@@ -74,18 +74,6 @@ class TestUserPreprints(ApiTestCase):
         assert_not_in(self.private_project._id, ids)
 
 class TestUserPreprintsListFiltering(PreprintsListFilteringMixin):
-
-    def setUp(self):
-        self.user = AuthUserFactory()
-        self.provider = PreprintProviderFactory(name='Sockarxiv')
-        self.provider_two = PreprintProviderFactory(name='Piratearxiv')
-        self.provider_three = self.provider
-        self.project = ProjectFactory(creator=self.user)
-        self.project_two = ProjectFactory(creator=self.user)
-        self.project_three = ProjectFactory(creator=self.user)
-        self.url = '/{}users/{}/preprints/?version=2.2&'.format(API_BASE, self.user._id)
-        super(TestUserPreprintsListFiltering, self).setUp()
-
     @pytest.fixture()
     def user(self):
         return AuthUserFactory()
