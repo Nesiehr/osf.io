@@ -11,7 +11,6 @@ from website.util import permissions
 from osf.models import PreprintService, Node
 from website.project import signals as project_signals
 import mock
-from tests.json_api_test_app import JSONAPITestApp
 
 from tests.base import ApiTestCase, capture_signals
 from osf_tests.factories import (
