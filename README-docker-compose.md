@@ -37,9 +37,9 @@
                network 192.168.168.167
         ```
     - If UFW enabled. Enable UFW forwarding.
-      - https://docs.docker.com/engine/installation/linux/ubuntulinux/#/enable-ufw-forwarding
+      - https://docs.docker.com/engine/installation/linux/linux-postinstall/#allow-access-to-the-remote-api-through-a-firewall
     - If needed. Configure a DNS server for use by Docker.
-      - https://docs.docker.com/engine/installation/linux/ubuntulinux/#/configure-a-dns-server-for-use-by-docker
+      - https://docs.docker.com/engine/installation/linux/linux-postinstall/#specify-dns-servers-for-docker
     - Configure docker to start at boot for Ubuntu 15.04 onwards
       `sudo systemctl enable docker`
 
@@ -89,7 +89,7 @@
 ## Docker Sync
 
 Ubuntu: Skip install of docker-sync, fswatch, and unison. instead...
-        `cp docker-compose.ubuntu.yml docker-compose.override.yml`
+        `cp docker-compose.linux.yml docker-compose.override.yml`
         Ignore future steps that start, stop, or wait for docker-sync
 
 1. Install Docker Sync 0.3.5
