@@ -325,7 +325,7 @@ class TestRegistrationForkCreate:
         pointer = ProjectFactory(creator=user)
         project_private.add_pointer(pointer, auth=Auth(user), save=True)
 
-        new_registration = RegistrationFactory(project = private_project, creator=user)
+        new_registration = RegistrationFactory(project = project_private, creator=user)
 
         url = '/{}registrations/{}/forks/{}'.format(API_BASE, new_registration._id, '?embed=node_links')
 
